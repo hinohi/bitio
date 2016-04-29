@@ -1,0 +1,8 @@
+# Python
+*.py[cod]
+*.so
+build/
+
+# emacs
+*~
+
