@@ -1,4 +1,7 @@
-
+# -*- coding: utf-8 -*-
+#
+# bit_file.py
+#
 
 def bit_open(name, mode="rb"):
     if mode in ["w", "wb"]:
