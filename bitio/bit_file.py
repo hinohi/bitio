@@ -5,8 +5,6 @@
 
 def bit_open(name, mode="r"):
     """\
-bit_open(name, mode="r")
-
 mode: "r" -> read mode
       "w" -> write mode
 """
