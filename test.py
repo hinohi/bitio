@@ -48,13 +48,13 @@ class TestReader(unittest.TestCase):
 
     def test_with(self):
         with bitio.BitFileReader(self.test_file_name) as f:
-            for i in ([0, 1, 1, 0]*2 + [1]):
+            for i in ([0, 1, 1, 0]*2 + [1] + [0]*7):
                 self.assertEqual(f.read(), i)
             self.assertRaises(IOError, f.read)
 
     def test_read(self):
         f = bitio.BitFileReader(self.test_file_name)
-        for i in ([0, 1, 1, 0]*2 + [1]):
+        for i in ([0, 1, 1, 0]*2 + [1] + [0]*7):
             self.assertEqual(f.read(), i)
         self.assertRaises(IOError, f.read)
         f.close()
@@ -62,10 +62,9 @@ class TestReader(unittest.TestCase):
     def test_read_bits(self):
         f = bitio.BitFileReader(self.test_file_name)
         self.assertEqual(f.read_bits(9), 0b011001101)
-        self.assertRaises(IOError, f.read)
+        self.assertEqual(f.read_bits(7), 0)
+        self.assertRaises(IOError, f.read_bits, 1)
         f.close()
-
-
 
 
 if __name__ == '__main__':
