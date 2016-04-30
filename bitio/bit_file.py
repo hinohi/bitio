@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 #
-# bit_file.py
+# bitio/bit_file.py
 #
 
-def bit_open(name, mode="rb"):
+def bit_open(name, mode="r"):
+    """\
+bit_open(name, mode="r")
+
+mode: "r" -> read mode
+      "w" -> write mode
+"""
     if mode in ["w", "wb"]:
         return BitFileWriter(name)
     elif mode in ["r", "rb"]:
@@ -11,7 +17,7 @@ def bit_open(name, mode="rb"):
     else:
         raise ValueError("Invalid bit-file mode '%s'"%(mode))
 
-class BaseBitFile(object):
+class _BaseBitFile(object):
     def __enter__(self):
         return self
     def __exit__(self, exc_type, exc_value, traceback):
@@ -20,7 +26,7 @@ class BaseBitFile(object):
     def __del__(self):
         self.close()
 
-class BitFileReader(BaseBitFile):
+class BitFileReader(_BaseBitFile):
     
     def __init__(self, name):
         self.name = name
@@ -63,7 +69,7 @@ class BitFileReader(BaseBitFile):
         return ret
 
 
-class BitFileWriter(BaseBitFile):
+class BitFileWriter(_BaseBitFile):
     
     def __init__(self, name):
         self.name = name

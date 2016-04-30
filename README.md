@@ -1,3 +1,4 @@
 # bitio
 
-Bit unit input/output file.
+Input/output utirites of bit basis file
+
