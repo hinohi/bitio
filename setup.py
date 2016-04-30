@@ -4,4 +4,19 @@
 #
 from distutils.core import setup
 
-raise NotImplementedError
+setup(
+    name = "bitio",
+    packages = ["bitio"],
+    version = "0.1",
+    description = "Input/output of a bit basis",
+    author = "Daiju Nakayama",
+    author_email = "42.daiju@gmail.com",
+    url = "https://github.com/hinohi/bitio",
+    classifiers = [
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Development Status :: 3 - Alpha",
+        "License :: OSI Approved :: MIT License",
+        "Topic :: Utilities",
+    ]
+)
