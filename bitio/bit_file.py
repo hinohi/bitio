@@ -6,9 +6,18 @@ def bit_open(name, mode="rb"):
     elif mode in ["r", "rb"]:
         return BitFileReader(name)
     else:
-        raise ValueError("Invalid bit file mode '%s'"%(mode))
+        raise ValueError("Invalid bit-file mode '%s'"%(mode))
 
-class BitFileReader(object):
+class BaseBitFile(object):
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+        return False
+    def __del__(self):
+        self.close()
+
+class BitFileReader(BaseBitFile):
     
     def __init__(self, name):
         self.name = name
@@ -51,7 +60,7 @@ class BitFileReader(object):
         return ret
 
 
-class BitFileWriter(object):
+class BitFileWriter(BaseBitFile):
     
     def __init__(self, name):
         self.name = name
@@ -63,9 +72,6 @@ class BitFileWriter(object):
         self.byte_file.write(chr(self.rack))
         self.rack = 0
         self.mask = 0x80
-    
-    def __del__(self):
-        self.close()
         
     def close(self):
         if self.mask != 0x80:
