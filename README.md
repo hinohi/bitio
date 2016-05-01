@@ -28,3 +28,15 @@ for i in range(count-1, -1, -1):
   else:
     f.write(0)
 ```
+
+othe interface
+
+```py
+l = []
+wrapper = ByteWrapper(l.append)
+f = bit_wrap(wrapper, "w")
+f.write_bits(0b110000101, 10)
+print l # ["a"]
+f.close()
+print l # ["a", "@"]
+```
