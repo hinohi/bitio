@@ -66,6 +66,12 @@ class TestReader(unittest.TestCase):
         self.assertRaises(IOError, f.read_bits, 1)
         f.close()
 
+    def test_empty(self):
+        emp_file = "emp"
+        open(emp_file, "wb").close()
+        f = bitio.BitFileReader(emp_file)
+        self.assertRaises(IOError, f.read)
+        f.close()
 
 if __name__ == '__main__':
     unittest.main()
