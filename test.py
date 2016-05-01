@@ -72,6 +72,7 @@ class TestReader(unittest.TestCase):
         f = bitio.BitFileReader(emp_file)
         self.assertRaises(IOError, f.read)
         f.close()
+        os.remove(emp_file)
 
 if __name__ == '__main__':
     unittest.main()
