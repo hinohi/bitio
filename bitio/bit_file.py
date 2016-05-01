@@ -17,7 +17,7 @@ class BitFileReader(_BaseBitFile):
         self.name = name
         self.byte_file = open(name, "rb")
         self.rack = 0
-        self.mask = 0x80
+        self.mask = 0
     
     def close(self):
         self.byte_file.close()
@@ -29,12 +29,11 @@ class BitFileReader(_BaseBitFile):
         return ord(c)
         
     def read(self):
-        if self.mask == 0x80:
+        if self.mask == 0:
+            self.mask = 0x80
             self.rack = self._read_byte()
         ret = 1 if (self.rack & self.mask) else 0
         self.mask >>= 1
-        if self.mask == 0:
-            self.mask = 0x80
         return ret
     
     def read_bits(self, count):
@@ -43,14 +42,13 @@ class BitFileReader(_BaseBitFile):
         ret = 0
         mask = 1 << (count - 1)
         while mask > 0:
-            if self.mask == 0x80:
+            if self.mask == 0:
+                self.mask = 0x80
                 self.rack = self._read_byte()
             if self.rack & self.mask:
                 ret |= mask
             self.mask >>= 1
             mask >>= 1
-            if self.mask == 0:
-                self.mask = 0x80
         return ret
 
 
