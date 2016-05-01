@@ -18,9 +18,21 @@ class BitFileReader(_BaseBitFile):
         self.byte_file = open(name, "rb")
         self.rack = 0
         self.mask = 0
+
+    @classmethod
+    def from_file(cls, byte_file):
+        if not hasattr(byte_file, "read"):
+            raise TypeError("must have 'read' method")
+        reader = cls.__new__(cls)
+        reader.name = None
+        reader.byte_file = byte_file
+        reader.rack = 0
+        reader.mask = 0
+        return reader
     
     def close(self):
-        self.byte_file.close()
+        if hasattr(self.byte_file, "close"):
+            self.byte_file.close()
     
     def _read_byte(self):
         c = self.byte_file.read(1)
@@ -60,6 +72,17 @@ class BitFileWriter(_BaseBitFile):
         self.rack = 0
         self.mask = 0x80
     
+    @classmethod
+    def from_file(cls, byte_file):
+        if not hasattr(byte_file, "write"):
+            raise TypeError("must have 'write' method")
+        writer = cls.__new__(cls)
+        writer.name = None
+        writer.byte_file = byte_file
+        writer.rack = 0
+        writer.mask = 0x80
+        return writer
+
     def _flush_byte(self):
         self.byte_file.write(chr(self.rack))
         self.rack = 0
@@ -68,7 +91,8 @@ class BitFileWriter(_BaseBitFile):
     def close(self):
         if self.mask != 0x80:
             self._flush_byte()
-        self.byte_file.close()
+        if hasattr(self.byte_file, "close"):
+            self.byte_file.close()
         
     def write(self, bit):
         if bit:

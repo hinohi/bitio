@@ -74,5 +74,26 @@ class TestReader(unittest.TestCase):
         f.close()
         os.remove(emp_file)
 
+class TestWrapper(unittest.TestCase):
+
+    def test_write(self):
+        l = []
+        wrapper = bitio.ByteWrapper(l.append)
+        f = bitio.bit_wrap(wrapper, "w")
+        f.write_bits(0b0110000101, 10)
+        self.assertEqual(l, ["a"])
+        f.close()
+        self.assertEqual(l, ["a", "@"])
+
+    def test_read(self):
+        l = ["a", "@"][::-1]
+        ll = l[::-1]
+        wrapper = bitio.ByteWrapper(l.pop)
+        f = bitio.bit_wrap(wrapper, "r")
+        for i in [0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0]:
+            self.assertEqual(f.read(), i)
+        self.assertRaises(IOError, f.read)
+        f.close()
+
 if __name__ == '__main__':
     unittest.main()
