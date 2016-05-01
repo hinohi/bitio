@@ -7,7 +7,7 @@ from distutils.core import setup
 setup(
     name = "bitio",
     packages = ["bitio"],
-    version = "0.1.1",
+    version = "0.2",
     description = "Input/output utirites of a bit-basis file",
     author = "Daiju Nakayama",
     author_email = "42.daiju@gmail.com",
