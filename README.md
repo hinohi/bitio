@@ -1,6 +1,6 @@
 # bitio
 
-Input/output utirites of bit basis file
+Utilities to read or write files by bit or bits
 
 ## How to use
 
@@ -17,7 +17,7 @@ f.write_bits(bits, count) # write 'count bits'
 f.close()
 ```
 
-These are same
+These are the same
 
 ```py
 f.write_bits(bits, count)
@@ -29,7 +29,7 @@ for i in range(count-1, -1, -1):
     f.write(0)
 ```
 
-othe interface
+Another interface
 
 ```py
 l = []
