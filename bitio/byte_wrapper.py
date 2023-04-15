@@ -12,7 +12,7 @@ class ByteWrapper(object):
         try:
             s = self.callable_object()
         except:
-            s = ""
+            s = bytes(0)
         return s
 
     def write(self, byte):
