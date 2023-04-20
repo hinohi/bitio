@@ -5,14 +5,17 @@
 class _BaseBitFile(object):
     def __enter__(self):
         return self
+
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
         return False
+
     def __del__(self):
         self.close()
 
+
 class BitFileReader(_BaseBitFile):
-    
+
     def __init__(self, name):
         self.name = name
         self.byte_file = open(name, "rb")
@@ -29,17 +32,17 @@ class BitFileReader(_BaseBitFile):
         reader.rack = 0
         reader.mask = 0
         return reader
-    
+
     def close(self):
         if hasattr(self.byte_file, "close"):
             self.byte_file.close()
-    
+
     def _read_byte(self):
         c = self.byte_file.read(1)
         if not c:
             raise EOFError("Bit file is empty!")
         return ord(c)
-        
+
     def read(self):
         if self.mask == 0:
             self.mask = 0x80
@@ -47,7 +50,7 @@ class BitFileReader(_BaseBitFile):
         ret = 1 if (self.rack & self.mask) else 0
         self.mask >>= 1
         return ret
-    
+
     def read_bits(self, count):
         if count <= 0:
             return 0
@@ -65,13 +68,13 @@ class BitFileReader(_BaseBitFile):
 
 
 class BitFileWriter(_BaseBitFile):
-    
+
     def __init__(self, name):
         self.name = name
         self.byte_file = open(name, "wb")
         self.rack = 0
         self.mask = 0x80
-    
+
     @classmethod
     def from_file(cls, byte_file):
         if not hasattr(byte_file, "write"):
@@ -87,20 +90,20 @@ class BitFileWriter(_BaseBitFile):
         self.byte_file.write(self.rack.to_bytes())
         self.rack = 0
         self.mask = 0x80
-        
+
     def close(self):
         if self.mask != 0x80:
             self._flush_byte()
         if hasattr(self.byte_file, "close"):
             self.byte_file.close()
-        
+
     def write(self, bit):
         if bit:
             self.rack |= self.mask
         self.mask >>= 1
         if self.mask == 0:
             self._flush_byte()
-    
+
     def write_bits(self, code, count):
         if count <= 0:
             return

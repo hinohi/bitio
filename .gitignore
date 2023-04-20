@@ -10,3 +10,8 @@ __pycache__/
 
 # PyPI
 MANIFEST
+
+# test
+.test
+.coverage
+.pytest_cache

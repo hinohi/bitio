@@ -2,7 +2,7 @@
 #
 # bitio/bit_file.py
 #
-"""\
+"""
 Input/output utilities of a bit-basis file.
 
 ------------------------------------------
@@ -28,7 +28,6 @@ f.close()
 print(l)    # [b"a", b"@"]
 """
 
-
 from .bit_file import BitFileReader, BitFileWriter
 from .byte_wrapper import ByteWrapper
 
@@ -36,30 +35,28 @@ VERSION = (0, 2, 0)
 
 
 def bit_open(name, mode="r"):
-    """\
-name: file name
-mode: "r" -> read mode
-      "w" -> write mode
-"""
+    """
+    name: file name
+    mode: "r" -> read mode
+          "w" -> write mode
+    """
     if mode in ["w", "wb"]:
         return BitFileWriter(name)
     elif mode in ["r", "rb"]:
         return BitFileReader(name)
     else:
-        raise ValueError("Invalid bit-file mode '%s'"%(mode))
+        raise ValueError("Invalid bit-file mode '%s'" % mode)
+
 
 def bit_wrap(byte_file, mode="r"):
-    """\
-byte_file: byte basis file-like object
-mode: "r" -> read mode
-      "w" -> write mode
-"""
+    """
+    byte_file: byte basis file-like object
+    mode: "r" -> read mode
+          "w" -> write mode
+    """
     if mode in ["w", "wb"]:
         return BitFileWriter.from_file(byte_file)
     elif mode in ["r", "rb"]:
         return BitFileReader.from_file(byte_file)
     else:
-        raise ValueError("Invalid bit-file mode '%s'"%(mode))
-
-
-
+        raise ValueError("Invalid bit-file mode '%s'" % mode)

@@ -17,4 +17,3 @@ class ByteWrapper(object):
 
     def write(self, byte):
         self.callable_object(byte)
-

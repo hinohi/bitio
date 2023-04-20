@@ -2,10 +2,11 @@
 #
 # test.py
 #
-import unittest
 import os
+import unittest
 
 import bitio
+
 
 class TestWiter(unittest.TestCase):
 
@@ -21,13 +22,13 @@ class TestWiter(unittest.TestCase):
 
     def test_with(self):
         with bitio.BitFileWriter(self.test_file_name) as f:
-            for i in ([0, 1, 1, 0]*2 + [1]):
+            for i in ([0, 1, 1, 0] * 2 + [1]):
                 f.write(i)
         self._test()
 
     def test_write(self):
         f = bitio.BitFileWriter(self.test_file_name)
-        for i in ([0, 1, 1, 0]*2 + [1]):
+        for i in ([0, 1, 1, 0] * 2 + [1]):
             f.write(i)
         f.close()
         self._test()
@@ -38,23 +39,24 @@ class TestWiter(unittest.TestCase):
         f.close()
         self._test()
 
+
 class TestReader(unittest.TestCase):
 
     def setUp(self):
         self.test_file_name = ".test"
         with bitio.BitFileWriter(self.test_file_name) as f:
-            for i in ([0, 1, 1, 0]*2 + [1]):
+            for i in ([0, 1, 1, 0] * 2 + [1]):
                 f.write(i)
 
     def test_with(self):
         with bitio.BitFileReader(self.test_file_name) as f:
-            for i in ([0, 1, 1, 0]*2 + [1] + [0]*7):
+            for i in ([0, 1, 1, 0] * 2 + [1] + [0] * 7):
                 self.assertEqual(f.read(), i)
             self.assertRaises(EOFError, f.read)
 
     def test_read(self):
         f = bitio.BitFileReader(self.test_file_name)
-        for i in ([0, 1, 1, 0]*2 + [1] + [0]*7):
+        for i in ([0, 1, 1, 0] * 2 + [1] + [0] * 7):
             self.assertEqual(f.read(), i)
         self.assertRaises(EOFError, f.read)
         f.close()
@@ -74,6 +76,7 @@ class TestReader(unittest.TestCase):
         f.close()
         os.remove(emp_file)
 
+
 class TestWrapper(unittest.TestCase):
 
     def test_write(self):
@@ -89,10 +92,11 @@ class TestWrapper(unittest.TestCase):
         l = [b"a", b"@"][::-1]
         wrapper = bitio.ByteWrapper(l.pop)
         f = bitio.bit_wrap(wrapper, "r")
-        for i in [0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0]:
+        for i in [0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]:
             self.assertEqual(f.read(), i)
         self.assertRaises(EOFError, f.read)
         f.close()
+
 
 if __name__ == '__main__':
     unittest.main()
