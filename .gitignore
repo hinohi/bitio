@@ -4,14 +4,12 @@
 build/
 dist/
 __pycache__/
+.coverage
+.pytest_cache
+*.egg-info
 
 # emacs
 *~
 
-# PyPI
-MANIFEST
-
 # test
 .test
-.coverage
-.pytest_cache
