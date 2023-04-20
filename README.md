@@ -2,7 +2,13 @@
 
 Utilities to read or write files by bit or bits
 
-## How to use
+## Install
+
+```sh
+pip install bitio
+```
+
+## Usage
 
 ```py
 from bitio import bit_open
