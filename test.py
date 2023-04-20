@@ -50,27 +50,27 @@ class TestReader(unittest.TestCase):
         with bitio.BitFileReader(self.test_file_name) as f:
             for i in ([0, 1, 1, 0]*2 + [1] + [0]*7):
                 self.assertEqual(f.read(), i)
-            self.assertRaises(IOError, f.read)
+            self.assertRaises(EOFError, f.read)
 
     def test_read(self):
         f = bitio.BitFileReader(self.test_file_name)
         for i in ([0, 1, 1, 0]*2 + [1] + [0]*7):
             self.assertEqual(f.read(), i)
-        self.assertRaises(IOError, f.read)
+        self.assertRaises(EOFError, f.read)
         f.close()
 
     def test_read_bits(self):
         f = bitio.BitFileReader(self.test_file_name)
         self.assertEqual(f.read_bits(9), 0b011001101)
         self.assertEqual(f.read_bits(7), 0)
-        self.assertRaises(IOError, f.read_bits, 1)
+        self.assertRaises(EOFError, f.read_bits, 1)
         f.close()
 
     def test_empty(self):
         emp_file = "emp"
         open(emp_file, "wb").close()
         f = bitio.BitFileReader(emp_file)
-        self.assertRaises(IOError, f.read)
+        self.assertRaises(EOFError, f.read)
         f.close()
         os.remove(emp_file)
 
@@ -81,18 +81,17 @@ class TestWrapper(unittest.TestCase):
         wrapper = bitio.ByteWrapper(l.append)
         f = bitio.bit_wrap(wrapper, "w")
         f.write_bits(0b0110000101, 10)
-        self.assertEqual(l, ["a"])
+        self.assertEqual(l, [b"a"])
         f.close()
-        self.assertEqual(l, ["a", "@"])
+        self.assertEqual(l, [b"a", b"@"])
 
     def test_read(self):
-        l = ["a", "@"][::-1]
-        ll = l[::-1]
+        l = [b"a", b"@"][::-1]
         wrapper = bitio.ByteWrapper(l.pop)
         f = bitio.bit_wrap(wrapper, "r")
         for i in [0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0]:
             self.assertEqual(f.read(), i)
-        self.assertRaises(IOError, f.read)
+        self.assertRaises(EOFError, f.read)
         f.close()
 
 if __name__ == '__main__':

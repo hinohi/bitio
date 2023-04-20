@@ -36,7 +36,7 @@ l = []
 wrapper = ByteWrapper(l.append)
 f = bit_wrap(wrapper, "w")
 f.write_bits(0b110000101, 10)
-print l # ["a"]
+print(l)    # [b"a"]
 f.close()
-print l # ["a", "@"]
+print(l)    # [b"a", b"@"]
 ```

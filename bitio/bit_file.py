@@ -36,8 +36,8 @@ class BitFileReader(_BaseBitFile):
     
     def _read_byte(self):
         c = self.byte_file.read(1)
-        if c == '':
-            raise IOError("Bit file is empty!")
+        if not c:
+            raise EOFError("Bit file is empty!")
         return ord(c)
         
     def read(self):
@@ -84,7 +84,7 @@ class BitFileWriter(_BaseBitFile):
         return writer
 
     def _flush_byte(self):
-        self.byte_file.write(chr(self.rack))
+        self.byte_file.write(self.rack.to_bytes())
         self.rack = 0
         self.mask = 0x80
         
