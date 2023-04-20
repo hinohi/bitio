@@ -31,7 +31,7 @@ print(l)    # [b"a", b"@"]
 from .bit_file import BitFileReader, BitFileWriter
 from .byte_wrapper import ByteWrapper
 
-VERSION = (0, 2, 0)
+VERSION = (0, 3, 0)
 
 
 def bit_open(name, mode="r"):

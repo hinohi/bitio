@@ -7,7 +7,7 @@ from setuptools import setup
 setup(
     name="bitio",
     packages=["bitio"],
-    version="0.2.0",
+    version="0.3.0",
     description="Input/output utilities of a bit-basis file",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
